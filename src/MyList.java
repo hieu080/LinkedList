@@ -336,10 +336,10 @@ public class MyList {
     // (14)
     public int size() {
         int count = 0;
-        Node p = head;
-        while (p != null) {
+        Node current = head;
+        while (current != null) {
             count++;
-            p = p.next;
+            current = current.next;
         }
         return count;
     }
@@ -422,60 +422,83 @@ public class MyList {
 
     // (20) 
     public void sortByAge(int start, int end) {
-        
+
         if (head == null || start >= end || end >= size()) {
             return; // Không cần sắp xếp nếu danh sách rỗng hoặc vị trí không hợp lệ.
         }
-//        
-        Node headClone = head;
-        Node current = headClone;
+        //
+        Node startNode = head;
+        Node endNode = tail;
+        Node current = head;
         Node prev = null;
         Node prevEnd = null; // Node trước nút cuối của phạm vi sắp xếp
 
         // Đưa con trỏ current đến vị trí start
+        for (int i = 0; i < end; i++) {
+            if (i == start) {
+                startNode = current;
+            }
+            prev = current;
+            current = current.next;
+        }
+        endNode = current;
+        current = startNode;
+
+        // sort
+        while (current != endNode) {
+            Node innerCurrent = startNode;
+            Node innerPrev = prev;
+            while (innerCurrent != endNode) {
+                if (innerCurrent.infor.age > innerCurrent.next.infor.age) {
+                    Person temp = innerCurrent.infor;
+                    innerCurrent.infor = innerCurrent.next.infor;
+                    innerCurrent.next.infor = temp;
+                }
+                innerPrev = innerCurrent;
+                innerCurrent = innerCurrent.next;
+            }
+            prev = current;
+            current = current.next;
+        }
+    }
+    // (21)
+
+    public void reverse(int start, int end) {
+        if (start < 0 || end < 0 || start >= size() || end >= size() || start >= end) {
+            // Invalid input parameters
+            return;
+        }
+
+        Node current = head;
+        Node prev = null;
+
+        // Traverse to the node at index 'start'
         for (int i = 0; i < start; i++) {
             prev = current;
             current = current.next;
         }
 
-        for (int i = start; i < end; i++) {
-            Node innerCurrent = current;
-            Node innerPrev = prev;
+        Node reversedHead = null;
+        Node reversedTail = current;
 
-            for (int j = i + 1; j <= end; j++) {
-                if (innerCurrent.infor.age > innerCurrent.next.infor.age) {
-                    // Swap data of innerCurrent and innerCurrent.next
-                    Person temp = innerCurrent.infor;
-                    innerCurrent.infor = innerCurrent.next.infor;
-                    innerCurrent.next.infor = temp;
-                    
-                    if (innerPrev != null) {
-                        innerPrev.next = innerCurrent.next;
-                    } else {
-                        headClone = innerCurrent.next;
-                    }
-
-                    innerCurrent.next = innerCurrent.next.next;
-                    if (innerCurrent.next == null) {
-                        tail = innerCurrent;
-                    } else if (prevEnd != null) {
-                        prevEnd.next = innerCurrent;
-                    } else {
-                        headClone = innerCurrent;
-                    }
-
-                    innerPrev = innerCurrent;
-                } else {
-                    innerPrev = innerCurrent;
-                    innerCurrent = innerCurrent.next;
-                }
-            }
-            end--;
-            prevEnd = innerPrev;
-            prev = current;
-            current = current.next;
+        // Reverse the portion of the list from 'start' to 'end'
+        for (int i = start; i <= end; i++) {
+            Node nextNode = current.next;
+            current.next = reversedHead;
+            reversedHead = current;
+            current = nextNode;
         }
-        this.traverse();
-    }
 
+        if (prev != null) {
+            prev.next = reversedHead;
+        } else {
+            head = reversedHead;
+        }
+
+        reversedTail.next = current;
+
+        if (end == size() - 1) {
+            tail = reversedTail;
+        }
+    }
 }

@@ -181,15 +181,15 @@ public class Main {
         t.addMany(c, d);
         t.traverse(); // (A,9) (B,8) (C,7) (D,6) (E,15) (F,4) (G,3) (H,2) (I,1)
         t.sortByAge(3, 6);
-//        t.traverse(); // (A,9) (B,8) (C,7) (G,3) (F,4) (D,6) (E,15) (H,2) (I,1)  
+        t.traverse(); // (A,9) (B,8) (C,7) (G,3) (F,4) (D,6) (E,15) (H,2) (I,1)  
 
-//        System.out.println("\n21. Test reverse(3, 6)");
-//        t.clear();
-//        t.addMany(c, d);
-//        t.traverse(); // (A,9) (B,8) (C,7) (D,6) (E,15) (F,4) (G,3) (H,2) (I,1)
-//        t.reverse(3, 6);
-//        t.traverse(); // (A,9) (B,8) (C,7) (G,3) (F,4) (E,15) (D,6) (H,2) (I,1) 
-//
-////        System.out.println();
+        System.out.println("\n21. Test reverse(3, 6)");
+        t.clear();
+        t.addMany(c, d);
+        t.traverse(); // (A,9) (B,8) (C,7) (D,6) (E,15) (F,4) (G,3) (H,2) (I,1)
+        t.reverse(3, 6);
+        t.traverse(); // (A,9) (B,8) (C,7) (G,3) (F,4) (E,15) (D,6) (H,2) (I,1) 
+
+        System.out.println();
     }
 }
